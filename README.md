@@ -109,29 +109,7 @@
 2. **직접 판단한 일:** 여러 문구·글꼴·테두리 색과 저장 방식, 편집 영역 배치를 요청했고, 직접 입력·저장·템플릿 CRUD·시크릿 창 복원을 실행해 화면과 결과를 확인했습니다.
 3. **AI 제안을 따르지 않은 일:** GPT 안에서도 저장 문제가 해결됐다는 판단을 그대로 받아들이지 않고 실패를 다시 알렸으며, 외부 시크릿 창에서 실제 저장되는지 확인했습니다.
 
-## 로컬 확인·파일 구성
 
-빌드 없이 `dist/index.html`을 브라우저로 열거나 정적 서버로 제공합니다. 원격 배포와 동일한 HTTPS 환경을 쓰면 브라우저 저장 기능을 확인하기 쉽습니다. GitHub Pages 사용 시 main 브랜치의 루트를 선택하면 루트 index.html이 dist/로 이동합니다. GitHub Pages 주소는 새로 배포한 후에만 결과 주소로 사용할 수 있으며 현재 확인한 결과 주소는 위 Sites URL입니다.
-
-```text
-index.html             GitHub Pages 루트 진입 파일
-dist/                  공개 편집기 (HTML/CSS/JS)
-  fixtures/            정상·문법 손상·필수 누락 JSON
-examples/              검증한 최종 PNG 3개
-docs/                  카드별 검사 기록
-tests/                 Node 검사
-README.md              프로젝트·근거·한계·제출문
-SUBMISSION.md          제출 필드 복사용 초안
-```
-
-개발자가 선택적으로 실행할 검사:
-
-```bash
-node tests/text-layout.test.cjs
-node tests/export-alpha.test.cjs
-node tests/templates.test.cjs
-node tests/backup.test.cjs
-```
 
 글자 폭 계산과 Canvas 분기 검사는 실제 화면의 글꼴 렌더링이나 브라우저 저장소 검사를 대신하지 않습니다.
 
