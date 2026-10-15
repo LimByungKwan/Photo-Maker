@@ -1,0 +1,14 @@
+const {readFileSync}=require('node:fs');
+const vm=require('node:vm');
+const assert=require('node:assert/strict');
+const source=readFileSync('dist/app.js','utf8');
+const contexts=[];
+const scope={exportGeneration:0,exportBlobs:{},canvas:{width:1080,height:1080},document:{createElement(){const context={fills:0,draws:0,fillRect(){this.fills++},drawImage(){this.draws++}};contexts.push(context);return {getContext(){return context},toBlob(cb,type){cb({type})}}}}};
+vm.createContext(scope);vm.runInContext(source.slice(source.indexOf('function prepareExports(){'),source.indexOf('function draw(){')),scope);scope.prepareExports();
+assert.equal(contexts.length,2);
+assert.equal(contexts[0].fills,0,'PNG canvas must stay transparent before compositing');
+assert.equal(contexts[1].fills,1,'JPEG receives a white background');
+assert.equal(contexts[1].fillStyle,'#ffffff');
+assert(contexts.every(c=>c.draws===1));
+assert.equal(scope.exportBlobs['image/png'].type,'image/png');assert.equal(scope.exportBlobs['image/jpeg'].type,'image/jpeg');
+console.log('PASS: PNG retains source alpha; only JPEG gets a white background. Browser pixel verification remains required.');

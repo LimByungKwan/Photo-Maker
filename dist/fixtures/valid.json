@@ -1,0 +1,31 @@
+{
+  "app": "card-studio",
+  "version": 1,
+  "templates": [
+    {
+      "id": "json-sample",
+      "name": "JSON 복원 검사",
+      "createdAt": "2026-10-15T02:00:00.000Z",
+      "updatedAt": "2026-10-15T02:00:00.000Z",
+      "scene": {
+        "ratio": "4:5",
+        "backgroundMode": "sample",
+        "texts": [
+          {
+            "id": "sample-caption",
+            "caption": "JSON 복원 성공!",
+            "x": 50,
+            "y": 60,
+            "size": 64,
+            "color": "#ffffff",
+            "font": "sans",
+            "fit": true,
+            "outline": true,
+            "outlineColor": "#153529"
+          }
+        ],
+        "imageData": null
+      }
+    }
+  ]
+}

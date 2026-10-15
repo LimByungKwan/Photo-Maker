@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict');
+const store=require('../dist/templates.js');
+const scene={ratio:'4:5',backgroundMode:'image',imageBlob:new Blob(['pixels'],{type:'image/png'}),imageDetails:{name:'배경.png'},texts:[{id:'caption-1',caption:'한글 😀\n두 번째 줄',x:31,y:72,size:80,color:'#ffffff',outlineColor:'#123456',font:'serif',fit:true,outline:true},{id:'caption-2',caption:'',x:50,y:10,size:16,color:'#000000',outlineColor:'#abcdef',font:'gungsuh',fit:false,outline:false}]};
+const a=store.recordFor(scene,'첫째'),b=store.recordFor(scene,'둘째'),c=store.recordFor(scene,'셋째');
+assert.equal(new Set([a.id,b.id,c.id]).size,3);
+scene.texts[0].caption='변경';assert.equal(a.scene.texts[0].caption,'한글 😀\n두 번째 줄');
+const edited=store.recordFor(scene,'첫째 수정',a);assert.equal(edited.id,a.id);assert.equal(edited.createdAt,a.createdAt);assert.equal(edited.name,'첫째 수정');assert.equal(b.name,'둘째');
+const restored=structuredClone(a);assert.deepEqual(restored.scene.texts,a.scene.texts);assert.equal(restored.scene.imageBlob.type,'image/png');assert.equal(restored.scene.imageBlob.size,a.scene.imageBlob.size);
+for(const bad of [{...a,name:''},{...a,scene:{...a.scene,ratio:'16:9'}},{...a,scene:{...a.scene,imageBlob:null}},{...a,scene:{...a.scene,texts:[{...a.scene.texts[0],x:NaN}]}},{...a,scene:{...a.scene,texts:[a.scene.texts[0],a.scene.texts[0]]}}])assert.throws(()=>store.validate(bad));
+console.log('PASS: 3 stable IDs, update identity, independent snapshots, multiple text settings/blob clone, invalid record rejection');
